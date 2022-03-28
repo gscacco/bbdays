@@ -1,2 +1,2 @@
 # bbdays
-Babashka days calculations
+Babashka working days calculations
