@@ -28,3 +28,13 @@
                     (map #(inc (mod (+ 7 %) 7)))
                     (filter #(< % 6)))]
     (count l-days)))
+
+(defn parse-date
+  "Parse the string as a date"
+  [str-date]
+  (let [re #"(\d{4,4})\/(\d{2,2})\/(\d{2,2})"
+        matcher (re-matcher re str-date)
+        _ (re-find matcher)
+        groups (re-groups matcher)
+        date (->> groups rest (map parse-long))]
+    (apply get-date date)))

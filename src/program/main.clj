@@ -2,21 +2,11 @@
   (:require [utils.core :as u]
             [clojure.tools.cli :refer [parse-opts]]))
 
-(defn parse-date
-  "Parse the string as a date"
-  [str-date]
-  (let [re #"(\d{4,4})\/(\d{2,2})\/(\d{2,2})"
-        matcher (re-matcher re str-date)
-        _ (re-find matcher)
-        groups (re-groups matcher)
-        date (->> groups rest (map parse-long))]
-    (apply u/get-date date)))
-
 (def cli-options
   [["-s" "--start-date SDATE" "Start date"
-    :parse-fn parse-date]
+    :parse-fn u/parse-date]
    ["-e" "--end-date EDATE" "End date"
-    :parse-fn parse-date]
+    :parse-fn u/parse-date]
    ["-r" "--rate RATE" "Hourly rate"
     :parse-fn parse-double]
    ["-h" "--help"]])
