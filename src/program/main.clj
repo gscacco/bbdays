@@ -1,17 +1,16 @@
 (ns program.main
-  (:require [utils.core :refer :all]
+  (:require [utils.core :as u]
             [clojure.tools.cli :refer [parse-opts]]))
 
-
-
-(defn parse-date [str-date]
+(defn parse-date
   "Parse the string as a date"
+  [str-date]
   (let [re #"(\d{4,4})\/(\d{2,2})\/(\d{2,2})"
         matcher (re-matcher re str-date)
         _ (re-find matcher)
         groups (re-groups matcher)
         date (->> groups rest (map parse-long))]
-    (apply get-date date)))
+    (apply u/get-date date)))
 
 (def cli-options
   [["-s" "--start-date SDATE" "Start date"
@@ -32,13 +31,12 @@
         help-condition (or (:help options) (not (and s-date e-date)))]
     (if help-condition
       (println "Usage:\n" summary)
-      (let [days (days-between s-date e-date)
-            wd (working-days-between s-date e-date)]
-        (do
-          (println "Days:\t \t" days)
-          (println "Working days:\t" wd)
-          (when rate
-            (println "Total cost:\t" (* rate 8 wd))))))))
+      (let [days (u/days-between s-date e-date)
+            wd (u/working-days-between s-date e-date)]
+        (println "Days:\t \t" days)
+        (println "Working days:\t" wd)
+        (when rate
+          (println "Total cost:\t" (* rate 8 wd)))))))
 
 (comment
   (parse-double "40")
